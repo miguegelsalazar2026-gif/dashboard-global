@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Global Pro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        /* --- ESTILOS DE LA BARRA DE TIEMPO Y CLIMA --- */
+        .barra-monitoreo {
+            max-width: 390px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .fila-tarjetas {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .tarjeta-info {
+            flex: 1;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .titulo-tag {
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .hora-reloj {
+            font-size: 14px;
+            font-weight: bold;
+            color: #f1c40f;
+            margin-top: 2px;
+        }
+        .clima-tag {
+            font-size: 13px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-top: 4px;
+        }
+
+        h1 { margin: 5px 0; font-size: 26px; }
+        .subtitulo {
+            color: #94a3b8;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+        
+        /* TARJETA PRINCIPAL DE CONVERSIÓN */
+        .tarjeta-cambio {
+            background-color: #1e293b;
+            padding: 22px;
+            border-radius: 16px;
+            display: inline-block;
+            text-align: left;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            max-width: 340px;
+            width: 100%;
+            border: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+        .bloque { margin-bottom: 15px; }
+        label {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select {
+            width: 90%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #475569;
+            background-color: #0f172a;
+            color: #fff;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        input:focus, select:focus {
+            border-color: #38bdf8;
+            outline: none;
+        }
+
+        /* PANEL DE PODER ADQUISITIVO */
+        .contenedor-poder {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .item-poder { text-align: center; flex: 1; }
+        .titulo-poder { font-size: 11px; color: #94a3b8; font-weight: bold; margin-bottom: 4px; }
+        .valor-poder { font-size: 13px; font-weight: bold; color: #38bdf8; }
+        .info-tasa {
+            text-align: center;
+            color: #38bdf8;
+            font-size: 13px;
+            margin-top: 15px;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        /* TARJETAS DE ACTIVOS FINANCIEROS */
+        .seccion-activos {
+            max-width: 390px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .tarjeta-activo {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .info-izq { text-align: left; }
+        .nombre-activo { font-weight: bold; font-size: 15px; color: #f1f5f9; }
+        .unidad-activo { font-size: 11px; color: #64748b; }
+        .precio-activo { font-size: 18px; font-weight: bold; color: #10b981; }
+    </style>
+</head>
+<body>
+
+    <div class="barra-monitoreo">
+        <div class="fila-tarjetas">
+            <div class="tarjeta-info">
+                <div class="titulo-tag">🗽 Nueva York</div>
+                <div class="hora-reloj" id="relojNy">00:00:00</div>
+            </div>
+            <div class="tarjeta-info">
+                <div class="titulo-tag">📍 Región Local</div>
+                <div class="hora-reloj" id="relojLocal">00:00:00</div>
+            </div>
+            <div class="tarjeta-info">
+                <div class="titulo-tag">🇪🇸 España (Madrid)</div>
+                <div class="hora-reloj" id="relojEs">00:00:00</div>
+            </div>
+        </div>
+        
+        <div class="fila-tarjetas">
+            <div class="tarjeta-info">
+                <div class="titulo-tag">Clima NY</div>
+                <div class="clima-tag" id="climaNy">☀️ 24°C</div>
+            </div>
+            <div class="tarjeta-info">
+                <div class="titulo-tag">Clima Local</div>
+                <div class="clima-tag" id="climaLocal">⛅ 31°C</div>
+            </div>
+            <div class="tarjeta-info">
+                <div class="titulo-tag">Clima Madrid</div>
+                <div class="clima-tag" id="climaEs">🌤️ 19°C</div>
+            </div>
+        </div>
+    </div>
+
+    <h1>Dashboard Financiero</h1>
+    <div class="subtitulo">Mercado de Divisas, Activos y Monitoreo Global</div>
+    
+    <div class="tarjeta-cambio">
+        <div class="bloque">
+            <label>1. Selecciona la Moneda Extranjera:</label>
+            <select id="selectorMoneda" onchange="obtenerTasaDeInternet()">
+                <option value="VES">Bolívares (VES)</option>
+                <option value="EUR">Euros (EUR)</option>
+                <option value="GBP">Libras Esterlinas (GBP)</option>
+                <option value="JPY">Yenes Japoneses (JPY)</option>
+                <option value="COP">Pesos Colombianos (COP)</option>
+            </select>
+        </div>
+
+        <div class="bloque">
+            <label>Cantidad en Dólares (USD):</label>
+            <input type="number" id="inputUsd" oninput="calcularDobleVia('USD')" placeholder="0.00">
+        </div>
+
+        <div class="bloque">
+            <label id="etiquetaExtranjera">Cantidad en Moneda Seleccionada:</label>
+            <input type="number" id="inputExtranjero" oninput="calcularDobleVia('EXTRANJERO')" placeholder="0.00">
+        </div>
+
+        <label>Equivalencia en Bienes Reales:</label>
+        <div class="contenedor-poder">
+            <div class="item-poder">
+                <div class="titulo-poder">✨ Oro (Onzas)</div>
+                <div class="valor-poder" id="poderOro">0.0000</div>
+            </div>
+            <div class="item-poder">
+                <div class="titulo-poder">🛢️ Crudo (Barril)</div>
+                <div class="valor-poder" id="poderPetroleo">0.00</div>
+            </div>
+            <div class="item-poder">
+                <div class="titulo-poder">☕ Café (Libras)</div>
+                <div class="valor-poder" id="poderCafe">0.00</div>
+            </div>
+        </div>
+        
+        <div class="info-tasa" id="barraEstado">Cargando datos del mercado...</div>
+    </div>
+
+    <div class="seccion-activos">
+        <div class="tarjeta-activo">
+            <div class="info-izq">
+                <div class="nombre-activo">✨ Oro</div>
+                <div class="unidad-activo">Onza Troy (USD)</div>
+            </div>
+            <div class="precio-activo" id="precioOro">$2,350.45</div>
+        </div>
+
+        <div class="tarjeta-activo">
+            <div class="info-izq">
+                <div class="nombre-activo">🛢️ Petróleo Brent</div>
+                <div class="unidad-activo">Barril (USD)</div>
+            </div>
+            <div class="precio-activo" id="precioPetroleo">$82.30</div>
+        </div>
+
+        <div class="tarjeta-activo">
+            <div class="info-izq">
+                <div class="nombre-activo">☕ Café EE.UU.</div>
+                <div class="unidad-activo">Libra (USD)</div>
+            </div>
+            <div class="precio-activo" id="precioCafe">$2.45</div>
+        </div>
+    </div>
+
+    <script>
+        var listaTasasMundiales = {}; 
+        var monedaActual = "VES";
+
+        var valorOro = 2350.45;
+        var valorPetroleo = 82.30;
+        var valorCafe = 2.45;
+
+        // --- RELOJES INTERNACIONALES ---
+        function actualizarRelojes() {
+            var ahora = new Date();
+            var opcionesFormat = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+
+            var horaNy = new Intl.DateTimeFormat('es-ES', { ...opcionesFormat, timeZone: 'America/New_York' }).format(ahora);
+            var horaLocal = new Intl.DateTimeFormat('es-ES', opcionesFormat).format(ahora);
+            var horaEs = new Intl.DateTimeFormat('es-ES', { ...opcionesFormat, timeZone: 'Europe/Madrid' }).format(ahora);
+
+            document.getElementById("relojNy").innerText = horaNy;
+            document.getElementById("relojLocal").innerText = horaLocal;
+            document.getElementById("relojEs").innerText = horaEs;
+        }
+        setInterval(actualizarRelojes, 1000);
+
+        // --- SISTEMA DINÁMICO DE CLIMA ---
+        function actualizarClima() {
+            // Genera variaciones sutiles de temperatura simulación real
+            var tempNy = (22 + (Math.random() - 0.5) * 2).toFixed(1);
+            var tempLocal = (32 + (Math.random() - 0.5) * 1.5).toFixed(1);
+            var tempEs = (20 + (Math.random() - 0.5) * 3).toFixed(1);
+
+            document.getElementById("climaNy").innerText = "☀️ " + tempNy + "°C";
+            document.getElementById("climaLocal").innerText = "⛅ " + tempLocal + "°C";
+            document.getElementById("climaEs").innerText = "🌤️ " + tempEs + "°C";
+        }
+        // Actualiza el termómetro cada 10 segundos
+        setInterval(actualizarClima, 10000);
+
+
+        function obtenerTasaDeInternet() {
+            monedaActual = document.getElementById("selectorMoneda").value;
+            var urlApi = "https://open.er-api.com/v6/latest/USD";
+            
+            fetch(urlApi)
+                .then(function(respuesta) { return respuesta.json(); })
+                .then(function(datos) {
+                    listaTasasMundiales = datos.rates;
+                    var tasaEspecifica = listaTasasMundiales[monedaActual];
+                    
+                    document.getElementById("barraEstado").innerText = "1 USD = " + tasaEspecifica.toFixed(2) + " " + monedaActual;
+                    document.getElementById("etiquetaExtranjera").innerText = "Cantidad en " + monedaActual + ":";
+                    calcularDobleVia('USD');
+                })
+                .catch(function(error) {
+                    document.getElementById("barraEstado").innerText = "Error de conexión.";
+                });
+        }
+
+        function calcularDobleVia(quienCambio) {
+            var tasa = listaTasasMundiales[monedaActual];
+            if (!tasa) return; 
+
+            var inputUsd = document.getElementById("inputUsd");
+            var inputExtranjero = document.getElementById("inputExtranjero");
+
+            if (quienCambio === 'USD') {
+                if (inputUsd.value == "") { inputExtranjero.value = ""; limpiarPoder(); return; }
+                var resultado = Number(inputUsd.value) * tasa;
+                inputExtranjero.value = resultado.toFixed(2);
+            } else {
+                if (inputExtranjero.value == "") { inputUsd.value = ""; limpiarPoder(); return; }
+                var resultado = Number(inputExtranjero.value) / tasa;
+                inputUsd.value = resultado.toFixed(2);
+            }
+
+            calcularPoderAdquisitivo(Number(inputUsd.value));
+        }
+
+        function calcularPoderAdquisitivo(montoEnDolares) {
+            var onzasOro = montoEnDolares / valorOro;
+            var barrilesCrudo = montoEnDolares / valorPetroleo;
+            var librasCafe = montoEnDolares / valorCafe;
+
+            document.getElementById("poderOro").innerText = onzasOro.toFixed(4);
+            document.getElementById("poderPetroleo").innerText = barrilesCrudo.toFixed(2);
+            document.getElementById("poderCafe").innerText = librasCafe.toFixed(2);
+        }
+
+        function limpiarPoder() {
+            document.getElementById("poderOro").innerText = "0.0000";
+            document.getElementById("poderPetroleo").innerText = "0.00";
+            document.getElementById("poderCafe").innerText = "0.00";
+        }
+
+        function actualizarMercadoActivos() {
+            var variacionOro = (Math.random() - 0.5) * 2;
+            var variacionPetroleo = (Math.random() - 0.5) * 0.4;
+            var variacionCafe = (Math.random() - 0.5) * 0.02;
+
+            valorOro += variacionOro;
+            valorPetroleo += variacionPetroleo;
+            valorCafe += variacionCafe;
+
+            document.getElementById("precioOro").innerText = "$" + valorOro.toFixed(2);
+            document.getElementById("precioPetroleo").innerText = "$" + valorPetroleo.toFixed(2);
+            document.getElementById("precioCafe").innerText = "$" + valorCafe.toFixed(2);
+
+            var inputUsd = document.getElementById("inputUsd").value;
+            if (inputUsd != "") {
+                calcularPoderAdquisitivo(Number(inputUsd));
+            }
+        }
+
+        setInterval(actualizarMercadoActivos, 3000);
+        
+        // Inicializaciones de arranque
+        actualizarRelojes();
+        actualizarClima();
+        obtenerTasaDeInternet();
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
